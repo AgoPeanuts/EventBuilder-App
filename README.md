@@ -16,7 +16,7 @@ If you'd like to create your event page like a birthday party or a wedding party
 - Event List and Date Search
 
 ## Features
-- **Event date is shown as your local time based on your browser.**
+- **Event date is shown as your local time based on your browser.**  
 If you create a event in 2020-08-01 1:00pm PDT (Pacific Daylight Time),
 people who use JST (Japan Standard Time) on a brower can see your event date as 2020-08-02 5:00 am.
 
