@@ -1,0 +1,80 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Events{% endblock %}
+
+{% block styles %}
+{{super()}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='list.css') }}">
+{% endblock %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="form-title">Event List</h1>
+
+    <!-- Search area -->
+    <div class="row">
+      <div class='col-sm-6'>
+        <form action="" method="post" class="form-inline" role="form">
+          {{ form.hidden_tag() }}
+          {{ form.csrf_token() }}
+          <div class="form-group">
+            {{ form.event_date(class_="form-control") }}
+          </div>
+          {{ form.local_time }}
+          {{ form.submit(class_="btn btn-primary") }}
+        </form>
+      </div>
+    </div>
+    <hr>
+
+    <!-- Event list -->
+    {% for e in evnt_list %}
+      {% if loop.index % 3 == 1 %}
+        <div class="row">
+      {% endif %}
+        	<div class="col-xs-12 col-md-4">
+        		<div class="thumbnail">
+        			<div class="caption">
+        			  <p>{{ moment(e.eventdate).format('LLLL') }}</p>
+        			  <p>{{ e.location }}</p>
+        				<a href="/event/{{ e.id }}"><h2>{{ e.eventname }}</h2></a>
+        			</div>
+        		</div>
+        	</div>
+      {% if loop.index % 3 == 0 %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script type="text/javascript">
+    // get today's date on user local time
+    var todaysDate = moment(new Date()).local().format('YYYY-MM-DD HH:mm');
+    $(function () {
+      // autocomplete off
+      $("#datepick").attr("autocomplete", "off");
+      $('#datepick').datetimepicker({
+        keepOpen: false,
+        format : 'YYYY-MM-DD',
+        defaultDate: todaysDate
+      });
+
+      // Set user local time in hidden input field
+      $('#datepick').datetimepicker().on("dp.change", function (e) {
+        $('#local_time').val(moment($('#datepick').val()).local().format('YYYY-MM-DD HH:mm:ssZ'));
+      });
+    });
+  </script>
+{% endblock %}

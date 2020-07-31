@@ -1,0 +1,5 @@
+setup.py
+.coverage
+flaskr.egg-info/
+/test/
+/instance/config_test.py

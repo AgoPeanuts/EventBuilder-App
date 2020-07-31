@@ -1,0 +1,63 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}MyPage{% endblock %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>My Page</h1>
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+    {% endfor %}
+
+    <h2>Create New Event</h2>
+    <a href="{{ url_for('mypage.add') }}" class="btn btn-info" role="button">Create</a>
+
+    <h2>My Event List</h2>
+    <!-- Event list -->
+    {% for e in mylist %}
+      {% if loop.index % 3 == 1 %}
+        <div class="row">
+      {% endif %}
+        	<div class="col-xs-12 col-md-4">
+        		<div class="thumbnail">
+        			<div class="caption">
+        			  <p>{{ moment(e.eventdate).format('LLLL') }}</p>
+        			  <p>{{ e.location }}</p>
+        				<a href="/event/{{ e.id }}" class="title-link"><h3>{{ e.eventname }}</h3></a>
+        				<div class="input-group">
+        				  <span class="input-group-btn">
+        				    <a href="{{ url_for('mypage.modify', event_id=e.id) }}" class="btn btn-primary" role="button">Modify</a>
+        				  </span>
+
+        				  <span class="input-group-btn">
+        				    <a href="{{ url_for('mypage.delete', event_id=e.id) }}" class="btn btn-default pull-right del" role="button">Delete</a>
+        				  </span>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+      {% if loop.index % 3 == 0 %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+  <script type="text/javascript">
+    $(function() {
+      $('.del').on('click', function() {
+        if(!confirm('Are you sure?')){
+          return false;
+        }
+      });
+    });
+  </script>
+{% endblock %}
