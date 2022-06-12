@@ -1,4 +1,4 @@
-# test EB
+# EB
 EB is Event Builder app.
 
 You are able to post your event announcements and choose it to the public and private.
@@ -34,6 +34,9 @@ people who use JST (Japan Standard Time) on a brower can see your event date as 
 - Flask-Login 0.5.0
 - Flask-Bcrypt 0.7.1
 - pytest 5.4.3
+  
+## Demo  
+https://youtu.be/_7vqEJhilJY
 
 ***
 **NOTE**
